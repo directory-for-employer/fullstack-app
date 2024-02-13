@@ -20,8 +20,8 @@ export class UserDto {
 	password: string
 
 	@IsString()
-	name: string
+	name?: string
 
 	@IsBoolean()
-	isAdmin: boolean
+	isAdmin?: boolean
 }

@@ -4,7 +4,7 @@ CREATE TABLE "User" (
     "email" TEXT NOT NULL,
     "name" TEXT,
     "password" TEXT NOT NULL,
-    "isAdmin" BOOLEAN NOT NULL,
+    "isAdmin" BOOLEAN DEFAULT false,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
