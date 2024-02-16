@@ -6,7 +6,6 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { GenreModule } from './genre/genre.module';
 import { FileModule } from './file/file.module';
-import { FileModule } from './file/file.module';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }), UserModule, AuthModule, GenreModule, FileModule],
