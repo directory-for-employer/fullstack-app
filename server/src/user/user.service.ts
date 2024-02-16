@@ -77,7 +77,7 @@ export class UserService {
 				isAdmin: user.isAdmin
 			}, 
 		})
-		return
+		return data
 	}
 
 	async getCount() {
