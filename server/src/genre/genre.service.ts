@@ -51,7 +51,9 @@ export class GenreService {
   }
 
   async findBySlug(slug: string) {
-    return this.prisma.genre.findFirst({where:{slug}})
+    const genre =  this.prisma.genre.findFirst({where:{slug}})
+    if(!genre) throw new NotFoundException('Genre not found')
+    return genre
   }
 
   async create(){

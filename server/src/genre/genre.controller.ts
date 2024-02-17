@@ -30,10 +30,10 @@ export class GenreController {
 		return this.genreService.findById(+id)
 	}
 
-  // @UsePipes(new ValidationPipe())
+  @UsePipes(new ValidationPipe())
 	@Post()
 	@HttpCode(200)
-	// @Auth('admin')
+	@Auth('admin')
 	async create(@Param('id') id, @Body() dto: CreateGenreDto){
 		return this.genreService.create()
 	}
@@ -49,7 +49,7 @@ export class GenreController {
 	@Delete(':id')
 	@HttpCode(200)
 	@Auth('admin')
-	async delete(@Param('id') id){
-		return this.genreService.delete(id)
+	async delete(@Param('id') id: number){
+		return this.genreService.delete(+id)
 	}
 }
