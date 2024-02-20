@@ -12,7 +12,6 @@ export class ActorController {
     return this.actorService.findBySlug(slug)
   }
 
-
   @Get()
   async getAll(@Query('searchTerm') searchTerm?: string){
     return this.actorService.getAll(searchTerm)
