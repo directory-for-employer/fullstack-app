@@ -1,5 +1,5 @@
 import { IsArray, IsBoolean, IsNumber, IsObject, IsString } from "class-validator";
-
+import { PrismaClient } from "@prisma/client";
 
 export class CreateMovieDto {
   @IsString()
@@ -32,6 +32,12 @@ export class CreateMovieDto {
   @IsBoolean()
   isSendTelegram?:boolean
 
-  // @IsArray()
-  // actors: number[]
+  @IsNumber()
+  actorId?: number
+
+  // @IsNumber()
+  genreId?: number
+
+  @IsNumber()
+  rating?:number
 }

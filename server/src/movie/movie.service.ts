@@ -19,7 +19,7 @@ export class MovieService {
           ]
       },
       include:{
-        actors: true,
+        actor: true,
         genre: true
       },
       orderBy: {
@@ -29,10 +29,9 @@ export class MovieService {
       return data
     } 
     else {
-      const data = await this.prisma.movie.findMany({include:{actors: true, genre: true}})
+      const data = await this.prisma.movie.findMany({include:{actor: true, genre: true}})
       return data
     }
-    
   }
 
 
@@ -41,7 +40,7 @@ export class MovieService {
       {
         where:{slug},
         include: {
-          actors: true,
+          actor: true,
           genre: true
         }
       })
@@ -53,9 +52,9 @@ export class MovieService {
     const movie = await this.prisma.movie.findMany(
       {
         include: {
-          actors: {
+          actor: {
             where: {
-              id: actorId
+              actorId
             }
           }
         }
@@ -68,7 +67,11 @@ export class MovieService {
     const movie = await this.prisma.movie.findMany(
       { 
        where: {
-        genreId
+        genre: {
+          some: {
+            genreId
+          }
+        }
        }
       })
     if(!movie) throw new NotFoundException('Movies not found')
@@ -134,14 +137,60 @@ export class MovieService {
     return movie.id
 	}
 
-  async update(id: number, data: CreateMovieDto){
-    console.log(id, data)
-    const result = await this.prisma.movie.update({
-      where:{id},
-      data
-    })
-    .catch(() => {throw new NotFoundException('movie Not Found')})
-		return result
+  async update(movieId: number, data: CreateMovieDto){
+    const {genreId, actorId} = data
+
+    if(genreId){
+      return await this.prisma.movie.update({
+        where: {id: movieId},
+        data: {
+          genre: {
+            connectOrCreate: {
+              where: {movieId_genreId: {genreId, movieId}},
+              create: {genreId}
+            }
+          }
+        },
+        include: {
+          genre: true
+        }
+      }).catch(() => {throw new NotFoundException('Failed Update Genre')})
+    }
+
+    if(actorId){
+      return await this.prisma.actor.update({
+        where: {id: actorId},
+        data: {
+          movie:{
+          createMany: {
+            data: {movieId},
+            skipDuplicates: true
+          }
+        }}
+      }).catch(() => {throw new NotFoundException('Failed Update Actor')})
+    }
+
+    return await this.prisma.movie.update({
+      where:{id: movieId},
+      data,
+      include: {
+        actor: {
+          include: {
+            actor: true
+          },
+        },
+        genre: {
+          include: {
+            genre:true
+          }
+        },
+        user: {
+          include: {
+            user: true
+          }
+        }
+      }
+    }).catch(() => {throw new NotFoundException('Movie Not Found')})
 	} 
 
   async delete(id:number){

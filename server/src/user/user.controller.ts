@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Delete, Param, UsePipes, ValidationPipe, HttpCode, Put } from '@nestjs/common'
+import { Controller, Get, Post, Body, Delete, Param, UsePipes, ValidationPipe, HttpCode, Put, Query } from '@nestjs/common'
 import { UserService } from './user.service'
 import { UserDto } from './dto/user.dto'
 import { Auth } from 'src/auth/decorator/auth.decorator'
@@ -27,7 +27,7 @@ export class UserController {
 
 	@Auth()
 	@Get('profile')
-	getProfile(@User('id') id) {
+	async getProfile(@User('id') id) {
 		return this.userService.findById(id)
 	}
 
@@ -58,5 +58,22 @@ export class UserController {
 	@Auth('admin')
 	async getUser(@Param('id') id:number) {
 		return this.userService.findById(+id)
+	}
+
+	@Get()
+	@Auth('admin')
+	async getAll(@Query('searchTerm') searchTerm?: string) {
+		return this.userService.getAll(searchTerm)
+	}
+
+
+	@Put('profile/favorite')
+	async toggleFavorite(@Body('movieId') movieId: number, @Body('userId') userId: number){
+		return this.userService.toggleFavorite(movieId, userId)
+	}
+
+	@Get('profile/getfavorite/:id')
+	async getFavorite(@Param('id') id: number){
+		return this.userService.getFavorite(+id)
 	}
 }

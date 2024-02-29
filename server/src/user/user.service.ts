@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common'
 import { UserDto } from './dto/user.dto'
 import { PrismaService } from 'src/prisma.service'
-import { User as UserModel } from '@prisma/client'
+import { PrismaClient, User as UserModel } from '@prisma/client'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { genSalt, hash } from 'bcrypt'
 
@@ -83,8 +83,70 @@ export class UserService {
 	async getCount() {
 		return this.prisma.user.count()
 	}
-	async getAll() {
-		return null
+
+	async getAll(searchTerm?: string){
+    if (searchTerm){
+      const data = await this.prisma.user.findMany({
+        where: {
+          OR: [
+            {
+              email: {contains: searchTerm}
+            }
+          ]
+      },
+      orderBy: {
+      	createdAt: 'desc'
+      }
+      })
+      return data
+    } 
+    else {
+      return await this.prisma.user.findMany()
+    }
+  }
+
+
+	async toggleFavorite(movieId: number, id: number){
+		const findMovieId = await this.prisma.user.count({
+			where: {
+				favorites: {
+					some: {
+						movieId
+					}
+				}
+			}
+		})
+		console.log(findMovieId)
+	
+		if(findMovieId){
+			console.log('123123123321')
+			const users = await this.prisma.movie.update({
+				where: {
+					id
+				},
+				data: {
+
+				}
+			})
+			return users
+		}	
+		console.log(1)
+		return findMovieId
 	}
 
+
+	async getFavorite(id: number){ 
+		return await this.prisma.user.findFirst({
+			where: {
+				id
+			},
+			include: {
+				favorites: {
+					include: {
+						movie: true
+					}
+				}
+			}
+		})
+	}
 }

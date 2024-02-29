@@ -5,7 +5,6 @@ CREATE TABLE "User" (
     "name" TEXT,
     "password" TEXT NOT NULL,
     "isAdmin" BOOLEAN DEFAULT false,
-    "favorites" TEXT[] DEFAULT ARRAY[]::TEXT[],
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -28,7 +27,6 @@ CREATE TABLE "Genre" (
 -- CreateTable
 CREATE TABLE "Actor" (
     "id" SERIAL NOT NULL,
-    "movieId" INTEGER NOT NULL,
     "slug" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "photo" TEXT NOT NULL,
@@ -39,20 +37,11 @@ CREATE TABLE "Actor" (
 );
 
 -- CreateTable
-CREATE TABLE "Parameters" (
+CREATE TABLE "Movie" (
     "id" SERIAL NOT NULL,
-    "movieId" INTEGER NOT NULL,
     "years" INTEGER NOT NULL,
     "duration" INTEGER NOT NULL,
     "country" TEXT NOT NULL,
-
-    CONSTRAINT "Parameters_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Movie" (
-    "id" SERIAL NOT NULL,
-    "genreId" INTEGER NOT NULL,
     "slug" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "poster" TEXT NOT NULL,
@@ -68,6 +57,30 @@ CREATE TABLE "Movie" (
     CONSTRAINT "Movie_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "GenreOnMovie" (
+    "movieId" INTEGER NOT NULL,
+    "genreId" INTEGER NOT NULL,
+
+    CONSTRAINT "GenreOnMovie_pkey" PRIMARY KEY ("movieId","genreId")
+);
+
+-- CreateTable
+CREATE TABLE "ActorOnMovie" (
+    "movieId" INTEGER NOT NULL,
+    "actorId" INTEGER NOT NULL,
+
+    CONSTRAINT "ActorOnMovie_pkey" PRIMARY KEY ("movieId","actorId")
+);
+
+-- CreateTable
+CREATE TABLE "UserOnMovie" (
+    "movieId" INTEGER NOT NULL,
+    "userId" INTEGER NOT NULL,
+
+    CONSTRAINT "UserOnMovie_pkey" PRIMARY KEY ("movieId","userId")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
@@ -78,16 +91,22 @@ CREATE UNIQUE INDEX "Genre_slug_key" ON "Genre"("slug");
 CREATE UNIQUE INDEX "Actor_slug_key" ON "Actor"("slug");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Parameters_movieId_key" ON "Parameters"("movieId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Movie_slug_key" ON "Movie"("slug");
 
 -- AddForeignKey
-ALTER TABLE "Actor" ADD CONSTRAINT "Actor_movieId_fkey" FOREIGN KEY ("movieId") REFERENCES "Movie"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "GenreOnMovie" ADD CONSTRAINT "GenreOnMovie_movieId_fkey" FOREIGN KEY ("movieId") REFERENCES "Movie"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Parameters" ADD CONSTRAINT "Parameters_movieId_fkey" FOREIGN KEY ("movieId") REFERENCES "Movie"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "GenreOnMovie" ADD CONSTRAINT "GenreOnMovie_genreId_fkey" FOREIGN KEY ("genreId") REFERENCES "Genre"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Movie" ADD CONSTRAINT "Movie_genreId_fkey" FOREIGN KEY ("genreId") REFERENCES "Genre"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ActorOnMovie" ADD CONSTRAINT "ActorOnMovie_movieId_fkey" FOREIGN KEY ("movieId") REFERENCES "Movie"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ActorOnMovie" ADD CONSTRAINT "ActorOnMovie_actorId_fkey" FOREIGN KEY ("actorId") REFERENCES "Actor"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserOnMovie" ADD CONSTRAINT "UserOnMovie_movieId_fkey" FOREIGN KEY ("movieId") REFERENCES "Movie"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserOnMovie" ADD CONSTRAINT "UserOnMovie_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

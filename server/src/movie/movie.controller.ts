@@ -58,8 +58,8 @@ export class MovieController {
   @Put(':id')
 	@HttpCode(200)
 	@Auth('admin')
-	async update(@Param('id') id: number, @Body() dto: CreateMovieDto){
-		return this.movieService.update(+id, dto)
+	async update(@Param('id') movieId: number, @Body() dto: CreateMovieDto){
+		return this.movieService.update(+movieId, dto)
 	}
 
 	@Delete(':id')
