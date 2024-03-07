@@ -1,11 +1,46 @@
-import { FC } from "react";
-import { IField } from "./field.interface";
+import { IField } from './field.interface'
+import { Controller } from 'react-hook-form'
+import { Text, View } from 'react-native'
+import cn from 'clsx'
+import { TextInput } from 'nativewind/dist/preflight'
 
-const Field:FC<IField> = ({classname, control, ...rest}) => {
-  return ( 
-    <>
-    </> 
-  );
+const Field = <T extends Record<string, any>>({
+	control,
+	rules,
+	name,
+	className,
+	...rest
+}: IField<T>): JSX.Element => {
+	return (
+		<Controller
+			control={control}
+			name={name}
+			rules={rules}
+			render={({
+				field: { value, onChange, onBlur },
+				fieldState: { error }
+			}) => (
+				<>
+					<View
+						className={cn(
+							'bg-[#232323] w-full border rounded-lg pb-4 pt-2.5 px-4 my-1.5',
+							error ? 'border-red' : 'border-transparent'
+						)}
+					>
+						<TextInput
+							autoCapitalize={'none'}
+							onChangeText={onChange}
+							onBlur={onBlur}
+							value={(value || '').toString()}
+							className={'text-white text-base'}
+							{...rest}
+						/>
+					</View>
+					{error && <Text className='text-red-600'>{error.message}</Text>}
+				</>
+			)}
+		/>
+	)
 }
- 
-export default Field;
+
+export default Field

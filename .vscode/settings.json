@@ -1,9 +1,0 @@
-{
-    "editor.fontFamily": "JetBrainsMonoNerdFont",
-    "editor.fontSize": 15,
-    "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font'",
-    "editor.tabSize": 2,
-    "cSpell.enableFiletypes": [
-        "prisma"
-    ]
-}
