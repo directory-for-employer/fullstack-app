@@ -1,0 +1,8 @@
+export { default as Admin } from './admin/Admin'
+export { default as Auth } from './auth/Auth'
+export { default as Favorites } from './favorites/Favorites'
+export { default as Home } from './home/Home'
+export { default as Profile } from './profile/Profile'
+export { default as Search } from './search/search'
+export { default as Screen404 } from './systems/Screen404'
+export { default as Trending } from './trending/Trending'

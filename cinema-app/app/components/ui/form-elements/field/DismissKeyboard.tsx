@@ -8,8 +8,7 @@ import {
 	ViewProps
 } from 'react-native'
 
-type Props = {}
-export const DismissKeyboard: FC<PropsWithChildren<ViewProps>> = ({
+const DismissKeyboard: FC<PropsWithChildren<ViewProps>> = ({
 	children,
 	...rest
 }) => {
@@ -26,3 +25,5 @@ export const DismissKeyboard: FC<PropsWithChildren<ViewProps>> = ({
 		</TouchableWithoutFeedback>
 	)
 }
+
+export default DismissKeyboard
