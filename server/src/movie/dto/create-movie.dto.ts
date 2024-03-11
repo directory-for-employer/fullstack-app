@@ -1,43 +1,42 @@
-import { IsArray, IsBoolean, IsNumber, IsObject, IsString } from "class-validator";
-import { PrismaClient } from "@prisma/client";
+import { IsBoolean, IsNumber, IsString } from 'class-validator'
 
 export class CreateMovieDto {
-  @IsString()
-  poster : string
+	@IsString()
+	poster: string
 
-  @IsString()
-  bigPoster: string
- 
-  @IsString()
-  title: string
+	@IsString()
+	bigPoster: string
 
-  @IsString()
-  description: string
+	@IsString()
+	title: string
 
-  @IsString()
-  slug: string  
+	@IsString()
+	description: string
 
-  @IsNumber()
-  duration: number
+	@IsString()
+	slug: string
 
-  @IsString()
-  country: string
+	@IsNumber()
+	duration: number
 
-  @IsNumber()
-  years: number
+	@IsString()
+	country: string
 
-  @IsString()
-  videoUrl: string 
+	@IsNumber()
+	years: number
 
-  @IsBoolean()
-  isSendTelegram?:boolean
+	@IsString()
+	videoUrl: string
 
-  @IsNumber()
-  actorId?: number
+	@IsBoolean()
+	isSendTelegram?: boolean
 
-  // @IsNumber()
-  genreId?: number
+	@IsNumber()
+	actorId?: number
 
-  @IsNumber()
-  rating?:number
+	// @IsNumber()
+	genreId?: number
+
+	@IsNumber()
+	rating?: number
 }

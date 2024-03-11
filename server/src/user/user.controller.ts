@@ -1,11 +1,23 @@
-import { Controller, Get, Post, Body, Delete, Param, UsePipes, ValidationPipe, HttpCode, Put, Query } from '@nestjs/common'
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	HttpCode,
+	Param,
+	Post,
+	Put,
+	Query,
+	UsePipes,
+	ValidationPipe
+} from '@nestjs/common'
 import { UserService } from './user.service'
 import { UserDto } from './dto/user.dto'
 import { Auth } from 'src/auth/decorator/auth.decorator'
 import { User } from './decorator/user.decorator'
-import { User as UserModel } from '@prisma/client'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { idValidationPipe } from 'src/pipes/id.validation.pipe'
+
 @Controller('user')
 export class UserController {
 	constructor(private readonly userService: UserService) {}
@@ -27,25 +39,27 @@ export class UserController {
 
 	@Auth()
 	@Get('profile')
-	async getProfile(@User('id') id) {
-		return this.userService.findById(id)
+	async getProfile(@User('id') id: number) {
+		return this.userService.findById(+id)
 	}
 
 	@UsePipes(new ValidationPipe())
 	@Post('profiles')
 	@HttpCode(200)
 	@Auth()
-	async updateProfile(@Body() dto: UpdateUserDto, @User('id') id){
-		return this.userService.updateProfile(id, dto)
+	async updateProfile(@Body() dto: UpdateUserDto, @User('id') id: number) {
+		return this.userService.updateProfile(+id, dto)
 	}
-
 
 	@UsePipes(new ValidationPipe())
 	@Put(':id')
 	@HttpCode(200)
 	@Auth('admin')
-	async updateUser(@Param('id', idValidationPipe) id, @Body() dto: UpdateUserDto){
-		return this.userService.updateProfile(id, dto)
+	async updateUser(
+		@Param('id', idValidationPipe) id: number,
+		@Body() dto: UpdateUserDto
+	) {
+		return this.userService.updateProfile(+id, dto)
 	}
 
 	@Get('count')
@@ -56,7 +70,7 @@ export class UserController {
 
 	@Get(':id')
 	@Auth('admin')
-	async getUser(@Param('id') id:number) {
+	async getUser(@Param('id') id: number) {
 		return this.userService.findById(+id)
 	}
 
@@ -66,14 +80,16 @@ export class UserController {
 		return this.userService.getAll(searchTerm)
 	}
 
-
 	@Put('profile/favorite')
-	async toggleFavorite(@Body('movieId') movieId: number, @Body('userId') userId: number){
+	async toggleFavorite(
+		@Body('movieId') movieId: number,
+		@Body('userId') userId: number
+	) {
 		return this.userService.toggleFavorite(movieId, userId)
 	}
 
 	@Get('profile/getfavorite/:id')
-	async getFavorite(@Param('id') id: number){
+	async getFavorite(@Param('id') id: number) {
 		return this.userService.getFavorite(+id)
 	}
 }
