@@ -17,10 +17,10 @@ import { JwtStrategy } from './jwt/jwt.strategy'
 			global: true,
 			imports: [ConfigModule],
 			useFactory: async (configService: ConfigService) => ({
-				secret: configService.get<string>('JWT_SECURE'),
+				secret: configService.get<string>('JWT_SECURE')
 			}),
-			inject: [ConfigService],
-		}),
+			inject: [ConfigService]
+		})
 	],
 	controllers: [AuthController],
 	providers: [
@@ -29,7 +29,7 @@ import { JwtStrategy } from './jwt/jwt.strategy'
 		PrismaService,
 		ConfigService,
 		JwtService,
-		JwtStrategy,
-	],
+		JwtStrategy
+	]
 })
 export class AuthModule {}

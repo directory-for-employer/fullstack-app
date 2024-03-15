@@ -11,6 +11,7 @@ const AuthFields: FC<IAuthFields> = ({ control, isPassRequired }) => {
 				placeholder='Enter email'
 				control={control}
 				name='email'
+				className='w-1/2'
 				rules={{
 					required: 'Email is required!',
 					pattern: {
@@ -25,6 +26,7 @@ const AuthFields: FC<IAuthFields> = ({ control, isPassRequired }) => {
 				placeholder='Enter password'
 				control={control}
 				name='password'
+				secureTextEntry
 				rules={
 					isPassRequired
 						? {

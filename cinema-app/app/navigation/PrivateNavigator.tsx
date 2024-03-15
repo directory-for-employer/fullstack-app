@@ -24,7 +24,7 @@ const PrivateNavigator: FC = () => {
 						<Stack.Screen key={route.name} {...route} />
 					) : (
 						<Stack.Screen
-							key='Screen4004'
+							key='Screen404'
 							name='Screen404'
 							component={Screen404}
 						/>
