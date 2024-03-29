@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
-import { IMovie } from '@/shared/types/movie.interface'
+import { IMovie } from '@/shared/types/dataInterface/movie.interface'
 import { useTypedNavigation } from '@/hooks/useTypedNavigation'
 import { useTypedRoute } from '@/hooks/useTypedRoute'
 import { useMovieItemAnimation } from '@/components/ui/movie/movie-item/useMovieAnimation'

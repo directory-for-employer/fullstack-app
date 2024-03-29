@@ -1,5 +1,8 @@
 import { request } from '@/services/api/request.api'
-import { IMovie, IMovieEditInput } from '@/shared/types/movie.interface'
+import {
+	IMovie,
+	IMovieEditInput
+} from '@/shared/types/dataInterface/movie.interface'
 import { getMovieUrl } from '@/config/api.config'
 
 export const MovieService = {
@@ -30,7 +33,7 @@ export const MovieService = {
 	},
 
 	async getByActor(actorId: number) {
-		return request<IMovie>({
+		return request<IMovie[]>({
 			url: getMovieUrl(`by-actor/${actorId}`),
 			method: 'GET'
 		})

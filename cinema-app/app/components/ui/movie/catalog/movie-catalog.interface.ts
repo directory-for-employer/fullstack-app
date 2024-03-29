@@ -1,4 +1,4 @@
-import { IMovie } from '@/shared/types/movie.interface'
+import { IMovie } from '@/shared/types/dataInterface/movie.interface'
 
 export interface IMovieCatalog {
 	title: string

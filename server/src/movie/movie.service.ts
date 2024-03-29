@@ -72,14 +72,22 @@ export class MovieService {
 	}
 
 	async findByActor(actorId: number) {
-		const movie = await this.prisma.actorOnMovie.findMany({
-			where: {
-				actorId
-			},
-			select: {
-				movie: true
-			}
-		})
+		const movie = await this.prisma.actorOnMovie
+			.findMany({
+				where: {
+					actorId
+				},
+				select: {
+					movie: true
+				}
+			})
+			.then((data) => {
+				let newData = []
+				data.map((item) => {
+					newData.push(item['movie'])
+				})
+				return newData
+			})
 		if (!movie) throw new NotFoundException('Movies not found')
 		return movie
 	}

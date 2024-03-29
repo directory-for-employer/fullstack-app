@@ -4,10 +4,11 @@ import { Layout, Loader } from '@/components/ui'
 import MovieHeader from '@/components/screens/movie/movie-element/MovieHeader'
 import MovieBackgound from '@/components/screens/movie/movie-element/MovieBackgound'
 import MovieContent from '@/components/screens/movie/movie-content/MovieContent'
+import { useCountOpened } from '@/hooks/useCountOpened'
 
 const Movie: FC = () => {
 	const { isLoading, movie } = useMovie()
-
+	useCountOpened()
 	if (isLoading) return <Loader />
 	if (!movie) return null
 

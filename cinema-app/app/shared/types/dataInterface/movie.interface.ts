@@ -1,18 +1,5 @@
-export interface IGenre {
-	id: number
-	name: string
-	slug: string
-	description: string
-}
-
-export interface IGenreEditInput extends Omit<IGenre, 'id'> {}
-
-export interface IActor {
-	id: number
-	photo: string
-	name: string
-	slug: string
-}
+import { IActor } from '@/shared/types/dataInterface/actor.interface'
+import { IGenre } from '@/shared/types/dataInterface/genre.interface'
 
 export interface IMovie {
 	id: number

@@ -1,6 +1,6 @@
 import { FC, useRef } from 'react'
 import { Animated, Platform, View } from 'react-native'
-import { IMovie } from '@/shared/types/movie.interface'
+import { IMovie } from '@/shared/types/dataInterface/movie.interface'
 import CarouselItem from '@/components/screens/home/carousel/carousel-item/CarouselItem'
 import {
 	EMPTY_ITEM_SIZE,

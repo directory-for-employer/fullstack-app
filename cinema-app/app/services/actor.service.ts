@@ -1,14 +1,14 @@
 import { request } from '@/services/api/request.api'
-import { getGenreUrl } from '@/config/api.config'
+import { getActorUrl } from '@/config/api.config'
 import {
-	IGenre,
-	IGenreEditInput
-} from '@/shared/types/dataInterface/genre.interface'
+	IActor,
+	IActorEditInput
+} from '@/shared/types/dataInterface/actor.interface'
 
-export const GenreService = {
+export const ActorService = {
 	async getAll(searchTerm?: string) {
-		return request<IGenre[]>({
-			url: getGenreUrl(''),
+		return request<IActor[]>({
+			url: getActorUrl(''),
 			method: 'GET',
 			params: searchTerm
 				? {
@@ -19,29 +19,29 @@ export const GenreService = {
 	},
 
 	async getBySlug(slug: string) {
-		return request<IGenre>({
-			url: getGenreUrl(`by-slug/${slug}`),
+		return request<IActor>({
+			url: getActorUrl(`by-slug/${slug}`),
 			method: 'GET'
 		})
 	},
 
 	async getById(id: number) {
-		return request<IGenreEditInput>({
-			url: getGenreUrl(`${id}`),
+		return request<IActorEditInput>({
+			url: getActorUrl(`${id}`),
 			method: 'GET'
 		})
 	},
 
 	async create() {
 		return request<string>({
-			url: getGenreUrl(''),
+			url: getActorUrl(''),
 			method: 'POST'
 		})
 	},
 
-	async update(id: number, data: IGenreEditInput) {
+	async update(id: number, data: IActorEditInput) {
 		return request<string>({
-			url: getGenreUrl(`${id}`),
+			url: getActorUrl(`${id}`),
 			method: 'PUT',
 			data
 		})
@@ -49,7 +49,7 @@ export const GenreService = {
 
 	async delete(id: number) {
 		return request<string>({
-			url: getGenreUrl(`${id}`),
+			url: getActorUrl(`${id}`),
 			method: 'DELETE'
 		})
 	}

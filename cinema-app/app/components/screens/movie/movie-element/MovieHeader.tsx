@@ -1,5 +1,5 @@
 import { FC, useRef } from 'react'
-import { Animated, StyleSheet, Text, View } from 'react-native'
+import { Animated, Platform, StyleSheet, Text, View } from 'react-native'
 import { useTypedNavigation } from '@/hooks/useTypedNavigation'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { BlurButton, Rating } from '@/components/ui'
@@ -14,8 +14,11 @@ const MovieHeader: FC<IMovieComponent> = ({ movie }) => {
 
 	return (
 		<View
-			className='w-full  flex-row justify-between items-center px-6 pb-4'
-			style={{ marginTop: -top, paddingTop: top + 6 }}
+			className='w-full z-1 flex-row justify-between items-center px-6 pb-4'
+			style={{
+				marginTop: -top,
+				paddingTop: Platform.OS === 'ios' ? top + 6 : top + 35
+			}}
 		>
 			<Animated.View
 				style={{

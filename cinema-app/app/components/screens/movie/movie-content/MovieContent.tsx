@@ -11,7 +11,7 @@ import VideoPlayer from '@/components/screens/movie/VideoPlayer/VideoPlayer'
 const MovieContent: FC<IMovieComponent> = ({ movie }) => {
 	const ref = useRef<ScrollView>(null)
 	const y = useRef(new Animated.Value(0)).current
-
+	console.log(movie)
 	useScrollToTop(ref)
 	return (
 		<Animated.ScrollView

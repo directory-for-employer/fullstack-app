@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useFavorites } from '@/components/screens/favorites/useFavorites'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { UserService } from '@/services/user.service'
-import { IMovie } from '@/shared/types/movie.interface'
+import { IMovie } from '@/shared/types/dataInterface/movie.interface'
 
 export const useFavorite = (movieId: number) => {
 	const [isSmashed, setIsSmashed] = useState(false)

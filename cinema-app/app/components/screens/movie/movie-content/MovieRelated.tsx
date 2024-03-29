@@ -3,7 +3,7 @@ import { ListRenderItemInfo, Text, View } from 'react-native'
 import { useRelatedMovies } from '@/components/screens/movie/movie-content/useRelatedMovies'
 import { Loader, MovieItem } from '@/components/ui'
 import HorizontalList from '@/components/ui/HorizontalList'
-import { IMovie } from '@/shared/types/movie.interface'
+import { IMovie } from '@/shared/types/dataInterface/movie.interface'
 
 interface IRelatedMovie {
 	genreIds: number[]

@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { IGenre } from '@/shared/types/movie.interface'
+import { IGenre } from '@/shared/types/dataInterface/movie.interface'
 import { useTypedNavigation } from '@/hooks/useTypedNavigation'
 import { Pressable, Text, View } from 'react-native'
 

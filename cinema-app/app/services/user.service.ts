@@ -2,7 +2,7 @@ import { request } from '@/services/api/request.api'
 import { IUser } from '@/shared/types/user.interface'
 import { getUserUrl } from '@/config/api.config'
 import { IAuthFormData } from '@/shared/types/auth.interface'
-import { IMovie } from '@/shared/types/movie.interface'
+import { IMovie } from '@/shared/types/dataInterface/movie.interface'
 
 export const UserService = {
 	async getAll(searchTerm?: string) {

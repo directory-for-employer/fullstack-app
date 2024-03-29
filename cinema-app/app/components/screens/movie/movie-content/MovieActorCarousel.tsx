@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { Image, ListRenderItemInfo, Pressable, Text, View } from 'react-native'
-import { IActor } from '@/shared/types/movie.interface'
+import { IActor } from '@/shared/types/dataInterface/movie.interface'
 import HorizontalList from '@/components/ui/HorizontalList'
 import { useTypedNavigation } from '@/hooks/useTypedNavigation'
 import { getMediaSourse } from '@/utils/getMediaSourse'
@@ -15,7 +15,7 @@ const MovieActorCarousel: FC<{ actors: IActor[] }> = ({ actors }) => {
 				<Pressable
 					onPress={() =>
 						navigate('Actor', {
-							slug: actor.slug
+							slug: actor['actor']['slug']
 						})
 					}
 					className='flex-row items-center rounded-xl overflow-hidden w-48 mr-4'
