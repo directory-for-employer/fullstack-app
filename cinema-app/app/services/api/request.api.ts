@@ -11,7 +11,8 @@ export const request = async <T>(config: AxiosRequestConfig) => {
 		Toast.show({
 			type: 'error',
 			text1: 'Request error',
-			text2: errorCatch(error)
+			text2: errorCatch(error),
+			autoHide: true
 		})
 
 		return Promise.reject(error)

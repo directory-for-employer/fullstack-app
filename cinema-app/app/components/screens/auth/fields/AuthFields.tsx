@@ -4,14 +4,18 @@ import { IAuthFormData } from '@/shared/types/auth.interface'
 import { Field } from '@/components/ui'
 import { validEmail } from '@/shared/regex'
 
-const AuthFields: FC<IAuthFields> = ({ control, isPassRequired }) => {
+const AuthFields: FC<IAuthFields> = ({
+	control,
+	isPassRequired,
+	className
+}) => {
 	return (
 		<>
 			<Field<IAuthFormData>
 				placeholder='Enter email'
 				control={control}
+				className={className}
 				name='email'
-				className='w-1/2'
 				rules={{
 					required: 'Email is required!',
 					pattern: {
@@ -25,6 +29,7 @@ const AuthFields: FC<IAuthFields> = ({ control, isPassRequired }) => {
 			<Field<IAuthFormData>
 				placeholder='Enter password'
 				control={control}
+				className={className}
 				name='password'
 				secureTextEntry
 				rules={

@@ -7,6 +7,9 @@ import {
 	Search,
 	Trending
 } from '@/components/screens'
+import Genre from '@/components/screens/genre/Genre'
+import Actor from '@/components/screens/actor/Actor'
+import Movie from '@/components/screens/movie/Movie'
 
 export const userRoutes: IRoute[] = [
 	{
@@ -28,6 +31,18 @@ export const userRoutes: IRoute[] = [
 	{
 		name: 'Profile',
 		component: Profile
+	},
+	{
+		name: 'Genre',
+		component: Genre
+	},
+	{
+		name: 'Actor',
+		component: Actor
+	},
+	{
+		name: 'Movie',
+		component: Movie
 	}
 ]
 export const routes = [...userRoutes, ...adminRoutes]

@@ -1,6 +1,7 @@
 import {
 	BadRequestException,
 	Injectable,
+	NotFoundException,
 	UnauthorizedException
 } from '@nestjs/common'
 import { AuthDto } from './dto/auth.dto'
@@ -19,8 +20,8 @@ export class AuthService {
 		private readonly configService: ConfigService
 	) {}
 
-	async issueTokenPair(userId: string) {
-		const data = { _id: userId }
+	async issueTokenPair(userId: number) {
+		const data = { id: userId }
 
 		const refreshToken = await this.jwtService.signAsync(data, {
 			secret: this.configService.get<string>('JWT_SECURE'),
@@ -37,18 +38,17 @@ export class AuthService {
 
 	async login(data: AuthDto) {
 		const user = await this.userService.findOne(data)
-		const isValidPassword = await bcrypt.compare(data.password, user.password)
-		if (!isValidPassword) {
-			throw new UnauthorizedException()
-		}
-		const tokens = await this.issueTokenPair(String(user.id))
+		if (user === null)
+			throw new NotFoundException('User not found. Please register')
 
+		const isValidPassword = await bcrypt.compare(data.password, user.password)
+		if (!isValidPassword)
+			throw new UnauthorizedException('The password is not valid')
+
+		const tokens = await this.issueTokenPair(user.id)
 		return {
 			user: this.returnUserFields(user),
 			...tokens
-			// access_token: await this.jwtService.signAsync(payload, {
-			// 	secret: this.configService.get<string>('JWT_SECURE')
-			// })
 		}
 	}
 
@@ -68,7 +68,7 @@ export class AuthService {
 		}
 
 		const CreateUser = await this.userService.create(compareData)
-		const tokens = await this.issueTokenPair(String(user.id))
+		const tokens = await this.issueTokenPair(user.id)
 
 		return { user: this.returnUserFields(CreateUser), ...tokens }
 	}
@@ -83,7 +83,7 @@ export class AuthService {
 		if (!result) throw new UnauthorizedException('Invalid token or expired!')
 
 		const user = await this.userService.findById(+result._id)
-		const tokens = await this.issueTokenPair(String(user.id))
+		const tokens = await this.issueTokenPair(user.id)
 
 		return {
 			user: this.returnUserFields(user),
@@ -98,12 +98,6 @@ export class AuthService {
 		const isValidPassword = await bcrypt.compare(data.password, user.password)
 		if (!isValidPassword) throw new UnauthorizedException('Invalid password')
 		return user
-
-		// if (user && isValidPassword) {
-		// 	const { password, ...result } = user
-		// 	return result
-		// }
-		// return null
 	}
 
 	returnUserFields(user: User) {

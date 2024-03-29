@@ -15,7 +15,6 @@ function Auth() {
 
 	const { isLoading, registerSync, loginSync } = useAuthMutation(reset)
 	const onSubmit: SubmitHandler<IAuthFormData> = (data) => {
-		console.log(data)
 		if (isReg) registerSync(data)
 		else loginSync(data)
 	}
@@ -31,7 +30,7 @@ function Auth() {
 						<Loader />
 					) : (
 						<>
-							<AuthFields control={control} isPassRequired />
+							<AuthFields control={control} isPassRequired className='px-5' />
 							<Button onPress={handleSubmit(onSubmit)} icon={'film'}>
 								Go to watch
 							</Button>

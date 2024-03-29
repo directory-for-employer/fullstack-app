@@ -18,7 +18,20 @@ export class MovieService {
 				},
 				include: {
 					actor: true,
-					genre: true
+					genre: {
+						include: {
+							genre: {
+								select: { id: true, name: true, slug: true }
+							}
+						}
+					}
+					// genre: {
+					// 	select: {
+					// 		genre: {
+					// 			select: { id: true, name: true, slug: true }
+					// 		}
+					// 	}
+					// }
 				},
 				orderBy: {
 					createdAt: 'desc'
@@ -26,7 +39,14 @@ export class MovieService {
 			})
 		} else {
 			return this.prisma.movie.findMany({
-				include: { actor: true, genre: true }
+				include: {
+					actor: true,
+					genre: {
+						select: {
+							genre: { select: { id: true, name: true, slug: true } }
+						}
+					}
+				}
 			})
 		}
 	}
@@ -65,15 +85,22 @@ export class MovieService {
 	}
 
 	async findByGenre(genreId: number) {
-		const movie = await this.prisma.genreOnMovie.findMany({
-			where: {
-				genreId
-			},
-			select: {
-				genre: true,
-				movie: true
-			}
-		})
+		const movie = await this.prisma.genreOnMovie
+			.findMany({
+				where: {
+					genreId
+				},
+				select: {
+					movie: true
+				}
+			})
+			.then((data) => {
+				let newData = []
+				data.map((item) => {
+					newData.push(item['movie'])
+				})
+				return newData
+			})
 		if (!movie) throw new NotFoundException('Movies not found')
 		return movie
 	}
@@ -96,16 +123,11 @@ export class MovieService {
 
 	async GetMostPopular() {
 		const movie = await this.prisma.movie.findMany({
-			where: {
-				countOpened: {
-					gt: 0
-				}
+			orderBy: {
+				countOpened: 'desc'
 			},
 			include: {
 				genre: true
-			},
-			orderBy: {
-				countOpened: 'desc'
 			}
 		})
 		if (!movie) throw new NotFoundException('Movies not found')

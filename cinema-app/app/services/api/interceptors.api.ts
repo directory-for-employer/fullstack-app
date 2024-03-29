@@ -22,7 +22,6 @@ instance.interceptors.request.use(async (config) => {
 	if (config.headers && accessToken)
 		config.headers.Authorization = `Bearer ${accessToken}`
 
-	console.log(config)
 	return config
 })
 

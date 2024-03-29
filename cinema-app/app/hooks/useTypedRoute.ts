@@ -1,4 +1,6 @@
-import { TypeRootStackParamList } from "@/navigation/navigation.types";
-import { RouteProp, useRoute } from "@react-navigation/native";
+import { RouteProp, useRoute } from '@react-navigation/native'
 
-export const useTypedRoute = () => useRoute<RouteProp<TypeRootStackParamList>>
+import { TypeRootStackParamList } from '@/navigation/navigation.types'
+
+export const useTypedRoute = <N extends keyof TypeRootStackParamList>() =>
+	useRoute<RouteProp<TypeRootStackParamList, N>>()

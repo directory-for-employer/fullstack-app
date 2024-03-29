@@ -17,6 +17,7 @@ import { Auth } from 'src/auth/decorator/auth.decorator'
 import { User } from './decorator/user.decorator'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { idValidationPipe } from 'src/pipes/id.validation.pipe'
+import { User as UserModel } from '@prisma/client'
 
 @Controller('user')
 export class UserController {
@@ -44,7 +45,7 @@ export class UserController {
 	}
 
 	@UsePipes(new ValidationPipe())
-	@Post('profiles')
+	@Put('profiles')
 	@HttpCode(200)
 	@Auth()
 	async updateProfile(@Body() dto: UpdateUserDto, @User('id') id: number) {
@@ -80,16 +81,19 @@ export class UserController {
 		return this.userService.getAll(searchTerm)
 	}
 
-	@Put('profile/favorite')
+	@Auth()
+	@Put('profile/favorites')
+	@HttpCode(200)
 	async toggleFavorite(
 		@Body('movieId') movieId: number,
-		@Body('userId') userId: number
+		@User() user: UserModel
 	) {
-		return this.userService.toggleFavorite(movieId, userId)
+		return this.userService.toggleFavorite(movieId, user)
 	}
 
-	@Get('profile/getfavorite/:id')
-	async getFavorite(@Param('id') id: number) {
+	@Auth()
+	@Get('profile/favorites/')
+	async getFavorite(@User('id') id: number) {
 		return this.userService.getFavorite(+id)
 	}
 }

@@ -4,4 +4,5 @@ import { IAuthFormData } from '@/shared/types/auth.interface'
 export interface IAuthFields {
 	control: Control<IAuthFormData>
 	isPassRequired?: boolean
+	className?: string
 }

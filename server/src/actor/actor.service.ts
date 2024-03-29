@@ -8,7 +8,7 @@ export class ActorService {
 
 	async getAll(searchTerm?: string) {
 		if (searchTerm) {
-			const data = await this.prisma.actor.findMany({
+			return this.prisma.actor.findMany({
 				where: {
 					OR: [
 						{
@@ -23,10 +23,8 @@ export class ActorService {
 					createdAt: 'desc'
 				}
 			})
-			return data
 		} else {
-			const data = await this.prisma.actor.findMany()
-			return data
+			return this.prisma.actor.findMany()
 		}
 	}
 
@@ -35,7 +33,6 @@ export class ActorService {
 	async findById(id: number) {
 		const actor = await this.prisma.actor.findUnique({ where: { id } })
 		if (!actor) throw new NotFoundException('actor not found')
-
 		return actor
 	}
 
@@ -56,7 +53,7 @@ export class ActorService {
 	}
 
 	async update(id: number, data: ActorDto) {
-		const result = await this.prisma.actor
+		return this.prisma.actor
 			.update({
 				where: { id },
 				data
@@ -64,16 +61,11 @@ export class ActorService {
 			.catch(() => {
 				throw new NotFoundException('actor Not Found')
 			})
-		return result
 	}
 
 	async delete(id: number) {
-		console.log(id)
-		const result = await this.prisma.actor
-			.delete({ where: { id } })
-			.catch(() => {
-				throw new NotFoundException('actor Not Found')
-			})
-		return result
+		return this.prisma.actor.delete({ where: { id } }).catch(() => {
+			throw new NotFoundException('actor Not Found')
+		})
 	}
 }

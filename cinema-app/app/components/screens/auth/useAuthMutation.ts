@@ -13,9 +13,10 @@ export const useAuthMutation = (reset: UseFormReset<IAuthFormData>) => {
 			AuthService.main('login', email, password),
 		{
 			onSuccess(data) {
-				console.log('success')
-				reset()
-				setUser(data.user)
+				setTimeout(() => {
+					reset()
+					setUser(data.user)
+				})
 			}
 		}
 	)
@@ -26,8 +27,10 @@ export const useAuthMutation = (reset: UseFormReset<IAuthFormData>) => {
 			AuthService.main('reg', email, password),
 		{
 			onSuccess(data) {
-				reset()
-				setUser(data.user)
+				setTimeout(() => {
+					reset()
+					setUser(data.user)
+				})
 			}
 		}
 	)

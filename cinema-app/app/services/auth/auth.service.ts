@@ -9,13 +9,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export const AuthService = {
 	async main(variant: 'reg' | 'login', email: string, password: string) {
-		console.log('login')
 		const response = await request<IAuthResponse>({
 			url: getAuthUrl(`${variant === 'reg' ? 'reg' : 'login'}`),
 			method: 'POST',
 			data: { email, password }
 		})
-		console.log(response)
+
 		if (response.accessToken) await saveTokensStorage(response)
 		return response
 	},
